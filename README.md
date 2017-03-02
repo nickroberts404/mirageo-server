@@ -3,13 +3,13 @@ A server/interface for fake location data created by Mirageo.
 
 #### Installing Globally
 Installing mirageo-server globally will make it available throughout the terminal.
-`yarn global add mirageo-server`
-`npm install mirageo-server -g`
+- `yarn global add mirageo-server`
+- `npm install mirageo-server -g`
 
 #### Install Locally
 Sometimes it is important to install a package locally within a project so it can be explicitly declared a dependency.
-`yarn add mirageo-server --dev`
-`npm install mirageo-server --save-dev`
+- `yarn add mirageo-server --dev`
+- `npm install mirageo-server --save-dev`
 
 #### Arguments
 - **-c --count <int>**: The amount of points to create. *Defaults to 100*
