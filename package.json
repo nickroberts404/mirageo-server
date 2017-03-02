@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"description": "A server/interface for location data created by mirageo",
 	"scripts": {
-		"start": "nodemon index"
+		"start": "nodemon index --ignore db.json"
 	},
 	"main": "index.js",
 	"repository": "https://github.com/nickroberts404/mirageo-server.git",
