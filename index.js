@@ -13,7 +13,7 @@ app.use(cors());
 const port = process.env.PORT || settings.port || 3030;
 
 // // Basic Middleware
-// app.use(express.static('public'));
+app.use(express.static('public'));
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));

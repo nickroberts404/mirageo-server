@@ -8,6 +8,9 @@ let settings = require('../settings');
 let population = mirageo.conjure(settings);
 
 // Routes
+router.get('/', (req, res) => {
+	res.send('index.html');
+})
 
 router.get('/data', (req, res) => {
 	res.send(population);
