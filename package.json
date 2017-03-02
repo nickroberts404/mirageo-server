@@ -1,0 +1,21 @@
+{
+	"name": "mirageo-server",
+	"version": "1.0.0",
+	"description": "A server/interface for location data created by mirageo",
+	"scripts": {
+		"start": "nodemon index"
+	},
+	"main": "index.js",
+	"repository": "https://github.com/nickroberts404/mirageo-server.git",
+	"author": "nickroberts404 <nickroberts404@gmail.com>",
+	"license": "MIT",
+	"bin": {
+		"mirageo-server": "index.js"
+	},
+	"dependencies": {
+		"body-parser": "^1.17.0",
+		"express": "^4.15.0",
+		"mirageo": "^1.0.0",
+		"morgan": "^1.8.1"
+	}
+}
