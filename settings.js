@@ -6,7 +6,8 @@ var program = require('commander');
 const defaults = {
 	count: 100,
 	bound: [90, -180, -90, 180], // equivalent to "the whole earth!"
-	geojson: false
+	geojson: false,
+	port: 3030,
 }
 
 var parseBBox = (i) => {
@@ -20,6 +21,7 @@ program
 	.option('-c, --count <c>', 'The amount of points to create <int>', i => parseInt(i), defaults.count)
 	.option('-b, --bound <b>', 'The bounding box, NW to SE <lat1,lng1,lat2,lng2>', parseBBox, defaults.bound)
 	.option('-g, --geojson', 'Send data as geoJSON objects', defaults.geojson)
+	.option('-p, --port <p>', 'Which port the server will run on, defaults to 3030', defaults.port)
 	.parse(process.argv);
 
 // Perform a union of defaults and programs attributes

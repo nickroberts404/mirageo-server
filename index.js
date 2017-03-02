@@ -2,6 +2,7 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const settings = require('./settings');
 const router = require('./routes');
 const morgan = require('morgan');
 const cors = require('cors');
@@ -9,7 +10,7 @@ const cors = require('cors');
 const app = express();
 app.use(cors());
 // Port that server will listen on
-const port = process.env.PORT || 3030;
+const port = process.env.PORT || settings.port || 3030;
 
 // // Basic Middleware
 // app.use(express.static('public'));
