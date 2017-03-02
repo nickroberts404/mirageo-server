@@ -4,9 +4,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const router = require('./routes');
 const morgan = require('morgan');
+const cors = require('cors');
 
 const app = express();
-
+app.use(cors());
 // Port that server will listen on
 const port = process.env.PORT || 3030;
 
