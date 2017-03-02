@@ -20,3 +20,7 @@ Sometimes it is important to install a package locally within a project so it ca
 Example: 
 `mirageo-server -c 400 -b 40,0,30,20 -p 8080 -g`
 
+### Future Plans
+I'd like to add motion to the points, giving the tool more real-life applications.
+I'm also working on a map right now.
+
