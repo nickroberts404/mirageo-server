@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"description": "A server/interface for location data created by mirageo",
 	"scripts": {
-		"start": "nodemon index --ignore db.json",
+		"start": "nodemon index --ignore db.json client",
 		"build": "webpack --watch"
 	},
 	"main": "index.js",
@@ -24,7 +24,6 @@
 		"lowdb": "^0.15.5",
 		"mirageo": "^1.0.0",
 		"morgan": "^1.8.1",
-		"webpack": "^2.2.1",
-		"webpack-dev-server": "^2.4.1"
+		"webpack": "^2.2.1"
 	}
 }
