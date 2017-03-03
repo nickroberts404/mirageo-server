@@ -93,7 +93,9 @@ function createMap(key) {
 	_mapboxGl2.default.accessToken = key;
 	map = new _mapboxGl2.default.Map({
 		container: 'map',
-		style: 'mapbox://styles/mapbox/streets-v9'
+		style: 'mapbox://styles/mapbox/outdoors-v9',
+		zoom: 3,
+		center: [-98, 39]
 	});
 }
 
