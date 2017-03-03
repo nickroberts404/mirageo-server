@@ -2,7 +2,13 @@ import mapbox from 'mapbox-gl/dist/mapbox-gl.js';
 import mapboxDraw from '@mapbox/mapbox-gl-draw';
 import 'whatwg-fetch';
 let map;
-let Draw = new mapboxDraw();
+let Draw = new mapboxDraw({
+	displayControlsDefault: false,
+	controls: {
+		polygon: true,
+		trash: true
+	}
+});
 
 // First, request the Mapbox key so a map can be created. Then, request data from server for display.
 fetch('http://localhost:3030/mapkey')
@@ -24,12 +30,38 @@ function createMap(key) {
 		center: [-98, 39]
 	});
 	addDrawControl();
+	addDrawListeners();
 }
 
 function addDrawControl() {
 	map.addControl(Draw);
 }
+function addDrawListeners() {
+	map.on('draw.create', () => {
+		const allFeatures = Draw.getAll().features
+		if(allFeatures.length > 1) Draw.delete(allFeatures[0].id);
+		updateBounds();
+	});
+	map.on('draw.delete', updateBounds);
+	map.on('draw.update', updateBounds);
+}
 
+function updateBounds() {
+	var bound = Draw.getAll().features[0] || null;
+	updateSettings({bound});
+}
+function updateSettings(settings) {
+	fetch('http://localhost:3030/data', {
+		method: 'POST',
+		headers: {
+		'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(settings)
+	})
+	.then(res => res.json())
+	.then(populateMap)
+	.catch(err => console.error(err));
+}
 function populateMap({data, settings}) {
 	if(!data) return false;
 	const feature = pointsToFeature(data, settings.geojson);

@@ -86,7 +86,13 @@ __webpack_require__(229);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var map = void 0;
-var Draw = new _mapboxGlDraw2.default();
+var Draw = new _mapboxGlDraw2.default({
+	displayControlsDefault: false,
+	controls: {
+		polygon: true,
+		trash: true
+	}
+});
 
 // First, request the Mapbox key so a map can be created. Then, request data from server for display.
 fetch('http://localhost:3030/mapkey').then(function (res) {
@@ -110,12 +116,39 @@ function createMap(key) {
 		center: [-98, 39]
 	});
 	addDrawControl();
+	addDrawListeners();
 }
 
 function addDrawControl() {
 	map.addControl(Draw);
 }
+function addDrawListeners() {
+	map.on('draw.create', function () {
+		var allFeatures = Draw.getAll().features;
+		if (allFeatures.length > 1) Draw.delete(allFeatures[0].id);
+		updateBounds();
+	});
+	map.on('draw.delete', updateBounds);
+	map.on('draw.update', updateBounds);
+}
 
+function updateBounds() {
+	var bound = Draw.getAll().features[0] || null;
+	updateSettings({ bound: bound });
+}
+function updateSettings(settings) {
+	fetch('http://localhost:3030/data', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(settings)
+	}).then(function (res) {
+		return res.json();
+	}).then(populateMap).catch(function (err) {
+		return console.error(err);
+	});
+}
 function populateMap(_ref) {
 	var data = _ref.data,
 	    settings = _ref.settings;
