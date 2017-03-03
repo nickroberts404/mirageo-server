@@ -85,11 +85,21 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var map = void 0;
 fetch('http://localhost:3030/mapkey').then(function (res) {
 	return res.text();
-}).then(createMap).catch(function (err) {
+}).then(createMap).then(function () {
+	return fetch('http://localhost:3030/data');
+}).then(function (res) {
+	return res.json();
+}).then(populateMap).catch(function (err) {
 	return console.error(err);
 });
 
+// fetch('http://localhost:3030/data')
+// 	.then(res => res.json())
+// 	.then(createMap)
+// 	.catch(err => console.error(err));
+
 function createMap(key) {
+	console.log('key', key);
 	_mapboxGl2.default.accessToken = key;
 	map = new _mapboxGl2.default.Map({
 		container: 'map',
@@ -97,6 +107,11 @@ function createMap(key) {
 		zoom: 3,
 		center: [-98, 39]
 	});
+	return;
+}
+
+function populateMap(d) {
+	console.log(d);
 }
 
 /***/ }),

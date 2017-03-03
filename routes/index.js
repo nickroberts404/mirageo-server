@@ -5,6 +5,7 @@ const router = require('express').Router();
 let settings = require('../settings');
 const low = require('lowdb');
 const db = low('db.json');
+
 //Data initialization
 let population = mirageo.conjure(settings);
 
