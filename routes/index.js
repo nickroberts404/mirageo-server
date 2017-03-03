@@ -2,11 +2,11 @@
 
 const mirageo = require('mirageo');
 const router = require('express').Router();
-let settings = require('../settings');
 const low = require('lowdb');
 const db = low('db.json');
 
 //Data initialization
+let settings = require('../settings');
 let population = mirageo.conjure(settings);
 
 // Routes
@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
 })
 
 router.get('/data', (req, res) => {
-	res.send(population);
+	res.send({data: population, settings});
 });
 
 router.post('/data', (req, res) => {

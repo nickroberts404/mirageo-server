@@ -93,25 +93,60 @@ fetch('http://localhost:3030/mapkey').then(function (res) {
 	return console.error(err);
 });
 
-// fetch('http://localhost:3030/data')
-// 	.then(res => res.json())
-// 	.then(createMap)
-// 	.catch(err => console.error(err));
-
 function createMap(key) {
-	console.log('key', key);
 	_mapboxGl2.default.accessToken = key;
 	map = new _mapboxGl2.default.Map({
 		container: 'map',
-		style: 'mapbox://styles/mapbox/outdoors-v9',
+		style: 'mapbox://styles/mapbox/light-v9',
 		zoom: 3,
 		center: [-98, 39]
 	});
-	return;
 }
 
-function populateMap(d) {
-	console.log(d);
+function populateMap(_ref) {
+	var data = _ref.data,
+	    settings = _ref.settings;
+
+	console.log(settings);
+	if (!data) return false;
+	var feature = pointsToFeature(data, settings.geojson);
+	// Remove old layers
+	if (map.getSource('points')) map.removeSource('points');
+	if (map.getLayer('points')) map.removeLayer('points');
+
+	var circleRadius = { stops: [[8, 3], [11, 7], [16, 15]] };
+	map.addSource('points', {
+		type: 'geojson',
+		data: feature
+	});
+	map.addLayer({
+		id: 'points',
+		type: 'circle',
+		source: 'points',
+		paint: {
+			'circle-radius': circleRadius,
+			'circle-color': '#8e44ad'
+		}
+	});
+}
+
+// Accepts an array of points and a boolean reperesenting whether the array is one of geoJSON points.
+// If the points are already geoJSON, just put them in a FeatureCollection.
+// Otherwise, we need to turn them into geoJSON as well.
+function pointsToFeature(points, isGeoJSON) {
+	var collection = {
+		type: 'FeatureCollection'
+	};
+	if (isGeoJSON) collection.features = points;else collection.features = points.map(function (i) {
+		return {
+			type: "Feature",
+			geometry: {
+				type: "Point",
+				coordinates: [i.lng, i.lat]
+			}
+		};
+	});
+	return collection;
 }
 
 /***/ }),
