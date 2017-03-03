@@ -1,6 +1,10 @@
 import mapbox from 'mapbox-gl/dist/mapbox-gl.js';
+import mapboxDraw from '@mapbox/mapbox-gl-draw';
 import 'whatwg-fetch';
 let map;
+let Draw = new mapboxDraw();
+
+// First, request the Mapbox key so a map can be created. Then, request data from server for display.
 fetch('http://localhost:3030/mapkey')
 	.then(res => res.text())
 	.then(createMap)
@@ -9,6 +13,8 @@ fetch('http://localhost:3030/mapkey')
 	.then(populateMap)
 	.catch(err => console.error(err));
 
+// Updates the access token and creates a new map centered above North America.
+// The map is rendered into a div#map.
 function createMap(key) {
 	mapbox.accessToken = key;
 	map = new mapbox.Map({
@@ -17,10 +23,14 @@ function createMap(key) {
 		zoom: 3,
 		center: [-98, 39]
 	});
+	addDrawControl();
+}
+
+function addDrawControl() {
+	map.addControl(Draw);
 }
 
 function populateMap({data, settings}) {
-	console.log(settings)
 	if(!data) return false;
 	const feature = pointsToFeature(data, settings.geojson);
 	// Remove old layers
@@ -39,6 +49,9 @@ function populateMap({data, settings}) {
 		paint: {
 			'circle-radius': circleRadius,
 			'circle-color': '#8e44ad',
+			'circle-opacity': 0.7,
+			'circle-stroke-width': 2,
+			'circle-stroke-color': 'white',
 		}
 	})
 }
