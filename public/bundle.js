@@ -139,7 +139,7 @@ function drawBounds(bound) {
 }
 
 function updateBounds() {
-	var bound = Draw.getAll().features[0] || [90, -180, -90, 180];
+	var bound = Draw.getAll().features[0];
 	updateSettings({ bound: bound });
 }
 

@@ -20,9 +20,9 @@ router.get('/data', (req, res) => {
 
 router.post('/data', (req, res) => {
 	settings = {
-		count: req.body.count || settings.count,
-		bound: req.body.bound || settings.bound,
-		geojson: req.body.geojson || settings.geojson
+		count: req.body.count === undefined ? settings.count : req.body.count || 0,
+		bound: req.body.bound  === undefined ? settings.bound : req.body.bound || [90, -180, -90, 180],
+		geojson: req.body.geojson === undefined ? settings.geojson : req.body.geojson || false
 	};
 	population = mirageo.conjure(settings);
 	res.send({data: population, settings});
