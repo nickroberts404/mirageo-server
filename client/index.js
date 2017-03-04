@@ -18,6 +18,7 @@ fetch('http://localhost:3030/mapkey')
 	.then(() => fetch('http://localhost:3030/data'))
 	.then(res => res.json())
 	.then(res => {
+		updateControls(res.settings);
 		if(mapLoaded) onMapLoad(res);
 		else map.on('load', () => onMapLoad(res));
 	})
@@ -123,4 +124,15 @@ function pointsToFeature(points, isGeoJSON) {
 		}
 	}))
 	return collection;
+}
+
+const countInput = document.getElementById('count-input');
+countInput.addEventListener('change', updateCount);
+function updateCount(e) {
+	const count = parseInt(e.target.value) || 0;
+	updateSettings({count})
+	updateControls({count})
+}
+function updateControls(settings) {
+	countInput.value = settings.count;
 }

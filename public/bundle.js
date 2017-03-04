@@ -103,6 +103,7 @@ fetch('http://localhost:3030/mapkey').then(function (res) {
 }).then(function (res) {
 	return res.json();
 }).then(function (res) {
+	updateControls(res.settings);
 	if (mapLoaded) onMapLoad(res);else map.on('load', function () {
 		return onMapLoad(res);
 	});
@@ -217,6 +218,17 @@ function pointsToFeature(points, isGeoJSON) {
 		};
 	});
 	return collection;
+}
+
+var countInput = document.getElementById('count-input');
+countInput.addEventListener('change', updateCount);
+function updateCount(e) {
+	var count = parseInt(e.target.value) || 0;
+	updateSettings({ count: count });
+	updateControls({ count: count });
+}
+function updateControls(settings) {
+	countInput.value = settings.count;
 }
 
 /***/ }),
