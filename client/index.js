@@ -69,7 +69,7 @@ function addDrawListeners() {
 	map.on('draw.update', updateBounds);
 }
 
-function updateSettings(settings) {
+function updateSettings(settings={}) {
 	fetch('http://localhost:3030/data', {
 		method: 'POST',
 		headers: {
@@ -127,12 +127,16 @@ function pointsToFeature(points, isGeoJSON) {
 }
 
 const countInput = document.getElementById('count-input');
+const refreshButton = document.getElementById('refresh-button');
 countInput.addEventListener('change', updateCount);
+refreshButton.addEventListener('click', () => updateSettings());
+
 function updateCount(e) {
 	const count = parseInt(e.target.value) || 0;
 	updateSettings({count})
 	updateControls({count})
 }
+
 function updateControls(settings) {
 	countInput.value = settings.count;
 }

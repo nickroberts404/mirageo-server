@@ -158,7 +158,9 @@ function addDrawListeners() {
 	map.on('draw.update', updateBounds);
 }
 
-function updateSettings(settings) {
+function updateSettings() {
+	var settings = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
 	fetch('http://localhost:3030/data', {
 		method: 'POST',
 		headers: {
@@ -221,12 +223,18 @@ function pointsToFeature(points, isGeoJSON) {
 }
 
 var countInput = document.getElementById('count-input');
+var refreshButton = document.getElementById('refresh-button');
 countInput.addEventListener('change', updateCount);
+refreshButton.addEventListener('click', function () {
+	return updateSettings();
+});
+
 function updateCount(e) {
 	var count = parseInt(e.target.value) || 0;
 	updateSettings({ count: count });
 	updateControls({ count: count });
 }
+
 function updateControls(settings) {
 	countInput.value = settings.count;
 }
