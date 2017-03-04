@@ -140,7 +140,7 @@ function drawBounds(bound) {
 
 // Updates the setting's bound.
 function updateBounds() {
-	var bound = Draw.getAll().features[0];
+	var bound = Draw.getAll().features[0] || null;
 	updateSettings({ bound: bound });
 }
 
