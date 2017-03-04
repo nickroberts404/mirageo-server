@@ -33,6 +33,7 @@ fetch('http://localhost:8080/data')
 ```
 
 ### Interface
+![Demo of mirageo-server interface](http://g.recordit.co/tUtfJRloAj.gif)
 mirageo-server provides a map interface to visualize the data and change the settings.
 To use it, you need to create an account with [Mapbox](https://www.mapbox.com), find your access token, and add it using: 
 ```
