@@ -9,6 +9,7 @@ const cors = require('cors');
 
 const app = express();
 app.use(cors());
+
 // Port that server will listen on
 const port = process.env.PORT || settings.port || 3030;
 
