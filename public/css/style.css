@@ -50,3 +50,24 @@ body {
 .mapboxgl-ctrl-top-right {
 	margin-top: 85px;
 }
+.modal-container {
+	/*display: none;*/
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 99999;
+}
+.no-key-modal {
+	max-width: 600px;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+}
+.no-key-modal > * {
+	margin: 6px 0;
+}
+.sign-off {
+	align-self: flex-end;
+	color: #8e44ad;
+}
