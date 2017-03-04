@@ -5,8 +5,7 @@
   "scripts": {
     "start": "nodemon index --ignore db.json client",
     "build": "webpack --watch",
-    "open": "live-server public",
-    "prepublish": "webpack -p"
+    "open": "live-server public"
   },
   "main": "index.js",
   "repository": "https://github.com/nickroberts404/mirageo-server.git",

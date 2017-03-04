@@ -37,6 +37,7 @@ body {
 	background: #66bb6a;
 	color: white;
 }
+
 #refresh-button:active {
 	border: 1px solid #43a047;
 	background: #43a047;

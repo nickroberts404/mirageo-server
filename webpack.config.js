@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack')
 
 module.exports = {
 	entry: [
@@ -12,9 +13,8 @@ module.exports = {
 	},
 	module: {
 		rules: [
-			{test: /\.js$/, loader: 'babel-loader', include: path.resolve(__dirname, 'client')},
+			{test: /\.js$/, loader: 'babel-loader', include: [path.resolve(__dirname, 'client'), path.resolve(__dirname, 'node_modules/@mapbox/mapbox-gl-draw/src')]},
 		]
 	},
 	devtool: 'cheap-module-source-map'
-
 }
