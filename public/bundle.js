@@ -1777,10 +1777,10 @@ var Draw = new _mapboxGlDraw2.default({
 });
 
 // First, request the Mapbox key so a map can be created. Then, request data from server for display.
-fetch('http://localhost:3030/mapkey').then(function (res) {
+fetch('/mapkey').then(function (res) {
 	return res.text();
 }).then(createMap).then(function () {
-	return fetch('http://localhost:3030/data');
+	return fetch('/data');
 }).then(function (res) {
 	return res.json();
 }).then(function (res) {
@@ -1852,7 +1852,7 @@ function addDrawListeners() {
 function updateSettings() {
 	var settings = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-	fetch('http://localhost:3030/data', {
+	fetch('/data', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'

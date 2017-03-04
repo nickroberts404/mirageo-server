@@ -14,10 +14,10 @@ const Draw = new mapboxDraw({
 });
 
 // First, request the Mapbox key so a map can be created. Then, request data from server for display.
-fetch('http://localhost:3030/mapkey')
+fetch('/mapkey')
 	.then(res => res.text())
 	.then(createMap)
-	.then(() => fetch('http://localhost:3030/data'))
+	.then(() => fetch('/data'))
 	.then(res => res.json())
 	.then(res => {
 		updateControls(res.settings);
@@ -82,7 +82,7 @@ function addDrawListeners() {
 
 // Make a post request to the server, updating the settings and receiving the resulting data. Populate map with the result.
 function updateSettings(settings={}) {
-	fetch('http://localhost:3030/data', {
+	fetch('/data', {
 		method: 'POST',
 		headers: {
 		'Content-Type': 'application/json'
