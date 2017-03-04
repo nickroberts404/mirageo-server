@@ -19,13 +19,13 @@ router.get('/data', (req, res) => {
 });
 
 router.post('/data', (req, res) => {
-	const newSettings = {
+	settings = {
 		count: req.body.count || settings.count,
 		bound: req.body.bound || settings.bound,
 		geojson: req.body.geojson || settings.geojson
 	};
-	population = mirageo.conjure(newSettings);
-	res.send({data: population, settings: newSettings});
+	population = mirageo.conjure(settings);
+	res.send({data: population, settings});
 });
 
 router.get('/mapkey', (req, res) => {

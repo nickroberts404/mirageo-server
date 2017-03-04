@@ -2,6 +2,7 @@ import mapbox from 'mapbox-gl/dist/mapbox-gl.js';
 import mapboxDraw from '@mapbox/mapbox-gl-draw';
 import 'whatwg-fetch';
 let map;
+let mapLoaded = false;
 let Draw = new mapboxDraw({
 	displayControlsDefault: false,
 	controls: {
@@ -16,7 +17,10 @@ fetch('http://localhost:3030/mapkey')
 	.then(createMap)
 	.then(() => fetch('http://localhost:3030/data'))
 	.then(res => res.json())
-	.then(populateMap)
+	.then(res => {
+		if(mapLoaded) onMapLoad(res);
+		else map.on('load', () => onMapLoad(res));
+	})
 	.catch(err => console.error(err));
 
 // Updates the access token and creates a new map centered above North America.
@@ -29,15 +33,33 @@ function createMap(key) {
 		zoom: 3,
 		center: [-98, 39]
 	});
+	map.on('load', () => mapLoaded = true);
+}
+
+function onMapLoad(res) {
 	addDrawControl();
 	addDrawListeners();
+	drawBounds(res.settings.bound);
+	populateMap(res);
+}
+
+function drawBounds(bound) {
+	if(Array.isArray(bound)) return console.error('Cant handle bounding box yet!');
+	Draw.add(bound)
+}
+
+function updateBounds() {
+	var bound = Draw.getAll().features[0] || [90, -180, -90, 180];
+	updateSettings({bound});
 }
 
 function addDrawControl() {
 	map.addControl(Draw);
 }
+
 function addDrawListeners() {
 	map.on('draw.create', () => {
+		console.log('added')
 		const allFeatures = Draw.getAll().features
 		if(allFeatures.length > 1) Draw.delete(allFeatures[0].id);
 		updateBounds();
@@ -46,10 +68,6 @@ function addDrawListeners() {
 	map.on('draw.update', updateBounds);
 }
 
-function updateBounds() {
-	var bound = Draw.getAll().features[0] || null;
-	updateSettings({bound});
-}
 function updateSettings(settings) {
 	fetch('http://localhost:3030/data', {
 		method: 'POST',
@@ -62,6 +80,7 @@ function updateSettings(settings) {
 	.then(populateMap)
 	.catch(err => console.error(err));
 }
+
 function populateMap({data, settings}) {
 	if(!data) return false;
 	const feature = pointsToFeature(data, settings.geojson);

@@ -86,6 +86,7 @@ __webpack_require__(229);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var map = void 0;
+var mapLoaded = false;
 var Draw = new _mapboxGlDraw2.default({
 	displayControlsDefault: false,
 	controls: {
@@ -101,7 +102,11 @@ fetch('http://localhost:3030/mapkey').then(function (res) {
 	return fetch('http://localhost:3030/data');
 }).then(function (res) {
 	return res.json();
-}).then(populateMap).catch(function (err) {
+}).then(function (res) {
+	if (mapLoaded) onMapLoad(res);else map.on('load', function () {
+		return onMapLoad(res);
+	});
+}).catch(function (err) {
 	return console.error(err);
 });
 
@@ -115,15 +120,35 @@ function createMap(key) {
 		zoom: 3,
 		center: [-98, 39]
 	});
+	map.on('load', function () {
+		return mapLoaded = true;
+	});
+}
+
+function onMapLoad(res) {
 	addDrawControl();
 	addDrawListeners();
+	drawBounds(res.settings.bound);
+	populateMap(res);
+}
+
+function drawBounds(bound) {
+	if (Array.isArray(bound)) return console.error('Cant handle bounding box yet!');
+	Draw.add(bound);
+}
+
+function updateBounds() {
+	var bound = Draw.getAll().features[0] || [90, -180, -90, 180];
+	updateSettings({ bound: bound });
 }
 
 function addDrawControl() {
 	map.addControl(Draw);
 }
+
 function addDrawListeners() {
 	map.on('draw.create', function () {
+		console.log('added');
 		var allFeatures = Draw.getAll().features;
 		if (allFeatures.length > 1) Draw.delete(allFeatures[0].id);
 		updateBounds();
@@ -132,10 +157,6 @@ function addDrawListeners() {
 	map.on('draw.update', updateBounds);
 }
 
-function updateBounds() {
-	var bound = Draw.getAll().features[0] || null;
-	updateSettings({ bound: bound });
-}
 function updateSettings(settings) {
 	fetch('http://localhost:3030/data', {
 		method: 'POST',
@@ -149,6 +170,7 @@ function updateSettings(settings) {
 		return console.error(err);
 	});
 }
+
 function populateMap(_ref) {
 	var data = _ref.data,
 	    settings = _ref.settings;
