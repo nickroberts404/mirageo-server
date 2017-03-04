@@ -1,7 +1,51 @@
+body {
+	font-family: monospace;
+}
+
 #map {
- position: absolute;
- top: 0;
- right: 0;
- bottom: 0;
- left: 0;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+
+.controls {
+	z-index: 999;
+	position: absolute;
+	top: 0;
+	right: 0;
+	background: rgba(255, 255, 255, 0.8);
+	padding: 10px;
+}
+
+.form-control {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 5px;
+}
+
+#refresh-button {
+	border: 1px solid #ddd;
+	outline: none;
+	background: white;
+	width: 100%;
+}
+
+#refresh-button:hover {
+	border: 1px solid #66bb6a;
+	background: #66bb6a;
+	color: white;
+}
+#refresh-button:active {
+	border: 1px solid #43a047;
+	background: #43a047;
+}
+
+.controls input[type=number] {
+	width: 100px;
+}
+
+.mapboxgl-ctrl-top-right {
+	margin-top: 100px;
 }
