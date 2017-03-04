@@ -3,7 +3,7 @@ import mapboxDraw from '@mapbox/mapbox-gl-draw';
 import 'whatwg-fetch';
 let map;
 let mapLoaded = false;
-let Draw = new mapboxDraw({
+const Draw = new mapboxDraw({
 	displayControlsDefault: false,
 	controls: {
 		polygon: true,
@@ -49,18 +49,21 @@ function drawBounds(bound) {
 	Draw.add(bound)
 }
 
+// Updates the setting's bound.
 function updateBounds() {
 	var bound = Draw.getAll().features[0];
 	updateSettings({bound});
 }
 
+// Adds the draw control to the map.
 function addDrawControl() {
 	map.addControl(Draw);
 }
 
+// Listen for changes to the bounds, and update them as they change. For now, we don't support multiple bounds,
+// so only one polygon can exist. Creating a new one deletes the old one. I would like for this to change in the future. 
 function addDrawListeners() {
 	map.on('draw.create', () => {
-		console.log('added')
 		const allFeatures = Draw.getAll().features
 		if(allFeatures.length > 1) Draw.delete(allFeatures[0].id);
 		updateBounds();
@@ -69,6 +72,7 @@ function addDrawListeners() {
 	map.on('draw.update', updateBounds);
 }
 
+// Make a post request to the server, updating the settings and receiving the resulting data. Populate map with the result.
 function updateSettings(settings={}) {
 	fetch('http://localhost:3030/data', {
 		method: 'POST',
@@ -82,6 +86,8 @@ function updateSettings(settings={}) {
 	.catch(err => console.error(err));
 }
 
+// Puts the points on the map! First convert to a geoJSON feature collection, then remove any existing layers/source.
+// Then add the new onen!
 function populateMap({data, settings}) {
 	if(!data) return false;
 	const feature = pointsToFeature(data, settings.geojson);
@@ -126,17 +132,28 @@ function pointsToFeature(points, isGeoJSON) {
 	return collection;
 }
 
+/**
+DOM Operations
+**/
+
+// Get References to dom controls
 const countInput = document.getElementById('count-input');
 const refreshButton = document.getElementById('refresh-button');
+
+// Add event listeners
+// 'change' is called everytime the user unfocuses or presses enter. Perfect!
 countInput.addEventListener('change', updateCount);
 refreshButton.addEventListener('click', () => updateSettings());
 
+// Takes count-input's value and updates settings with it. If it is empty, count will be 0
+// If count is 0, put zero as count-input's value
 function updateCount(e) {
 	const count = parseInt(e.target.value) || 0;
 	updateSettings({count})
-	updateControls({count})
+	if(count === 0) updateControls({count})
 }
 
+// Mainly used to populate the controls with values from the settings, fresh from the server.
 function updateControls(settings) {
 	countInput.value = settings.count;
 }

@@ -138,18 +138,21 @@ function drawBounds(bound) {
 	Draw.add(bound);
 }
 
+// Updates the setting's bound.
 function updateBounds() {
 	var bound = Draw.getAll().features[0];
 	updateSettings({ bound: bound });
 }
 
+// Adds the draw control to the map.
 function addDrawControl() {
 	map.addControl(Draw);
 }
 
+// Listen for changes to the bounds, and update them as they change. For now, we don't support multiple bounds,
+// so only one polygon can exist. Creating a new one deletes the old one. I would like for this to change in the future. 
 function addDrawListeners() {
 	map.on('draw.create', function () {
-		console.log('added');
 		var allFeatures = Draw.getAll().features;
 		if (allFeatures.length > 1) Draw.delete(allFeatures[0].id);
 		updateBounds();
@@ -158,6 +161,7 @@ function addDrawListeners() {
 	map.on('draw.update', updateBounds);
 }
 
+// Make a post request to the server, updating the settings and receiving the resulting data. Populate map with the result.
 function updateSettings() {
 	var settings = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -174,6 +178,8 @@ function updateSettings() {
 	});
 }
 
+// Puts the points on the map! First convert to a geoJSON feature collection, then remove any existing layers/source.
+// Then add the new onen!
 function populateMap(_ref) {
 	var data = _ref.data,
 	    settings = _ref.settings;
@@ -222,19 +228,30 @@ function pointsToFeature(points, isGeoJSON) {
 	return collection;
 }
 
+/**
+DOM Operations
+**/
+
+// Get References to dom controls
 var countInput = document.getElementById('count-input');
 var refreshButton = document.getElementById('refresh-button');
+
+// Add event listeners
+// 'change' is called everytime the user unfocuses or presses enter. Perfect!
 countInput.addEventListener('change', updateCount);
 refreshButton.addEventListener('click', function () {
 	return updateSettings();
 });
 
+// Takes count-input's value and updates settings with it. If it is empty, count will be 0
+// If count is 0, put zero as count-input's value
 function updateCount(e) {
 	var count = parseInt(e.target.value) || 0;
 	updateSettings({ count: count });
-	updateControls({ count: count });
+	if (count === 0) updateControls({ count: count });
 }
 
+// Mainly used to populate the controls with values from the settings, fresh from the server.
 function updateControls(settings) {
 	countInput.value = settings.count;
 }
