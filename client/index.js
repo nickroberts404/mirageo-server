@@ -3,6 +3,8 @@ import mapboxDraw from '@mapbox/mapbox-gl-draw';
 import 'whatwg-fetch';
 let map;
 let mapLoaded = false;
+let hasKey = false;
+const modal = document.getElementById('no-key-modal-container');
 const Draw = new mapboxDraw({
 	displayControlsDefault: false,
 	controls: {
@@ -19,6 +21,7 @@ fetch('http://localhost:3030/mapkey')
 	.then(res => res.json())
 	.then(res => {
 		updateControls(res.settings);
+		if(!hasKey) return false;
 		if(mapLoaded) onMapLoad(res);
 		else map.on('load', () => onMapLoad(res));
 	})
@@ -27,6 +30,11 @@ fetch('http://localhost:3030/mapkey')
 // Updates the access token and creates a new map centered above North America.
 // The map is rendered into a div#map.
 function createMap(key) {
+	hasKey = !!key
+	if(!hasKey) {
+		modal.style.display = 'block';
+		return false;
+	}
 	mapbox.accessToken = key;
 	map = new mapbox.Map({
 		container: 'map',
@@ -89,7 +97,7 @@ function updateSettings(settings={}) {
 // Puts the points on the map! First convert to a geoJSON feature collection, then remove any existing layers/source.
 // Then add the new onen!
 function populateMap({data, settings}) {
-	if(!data) return false;
+	if(!data || !hasKey) return false;
 	const feature = pointsToFeature(data, settings.geojson);
 	// Remove old layers
 	if(map.getSource('points')) map.removeSource('points');

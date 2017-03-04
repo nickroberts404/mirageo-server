@@ -1766,6 +1766,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var map = void 0;
 var mapLoaded = false;
+var hasKey = false;
+var modal = document.getElementById('no-key-modal-container');
 var Draw = new _mapboxGlDraw2.default({
 	displayControlsDefault: false,
 	controls: {
@@ -1783,6 +1785,7 @@ fetch('http://localhost:3030/mapkey').then(function (res) {
 	return res.json();
 }).then(function (res) {
 	updateControls(res.settings);
+	if (!hasKey) return false;
 	if (mapLoaded) onMapLoad(res);else map.on('load', function () {
 		return onMapLoad(res);
 	});
@@ -1793,6 +1796,11 @@ fetch('http://localhost:3030/mapkey').then(function (res) {
 // Updates the access token and creates a new map centered above North America.
 // The map is rendered into a div#map.
 function createMap(key) {
+	hasKey = !!key;
+	if (!hasKey) {
+		modal.style.display = 'block';
+		return false;
+	}
 	_mapboxGl2.default.accessToken = key;
 	map = new _mapboxGl2.default.Map({
 		container: 'map',
@@ -1863,7 +1871,7 @@ function populateMap(_ref) {
 	var data = _ref.data,
 	    settings = _ref.settings;
 
-	if (!data) return false;
+	if (!data || !hasKey) return false;
 	var feature = pointsToFeature(data, settings.geojson);
 	// Remove old layers
 	if (map.getSource('points')) map.removeSource('points');
