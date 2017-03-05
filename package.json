@@ -7,7 +7,7 @@
     "build": "webpack --watch",
     "prod": "webpack -p",
     "open": "live-server public",
-    "prepublish": "npm run prod",
+    "prepublish": "npm run prod"
   },
   "main": "index.js",
   "repository": "https://github.com/nickroberts404/mirageo-server.git",
