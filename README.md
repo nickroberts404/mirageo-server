@@ -7,13 +7,13 @@ A server/interface for fake location data created by Mirageo.
 
 ### Arguments
 - **-c --count &lt;int>**: The amount of points to create. *Defaults to 100*
-- **-b --bound &lt;floats>**: The bounding box, NW to SE. *Defaults to [90, -180, -90, 180]*
+- **-b --bound &lt;floats>**: The bounding box, WSEN. *Defaults to [-180, -90, 180, 90]*
 - **-g --geojson**: Send data as geoJSON objects. *Defaults to false*
 - **-p --port &lt;int>**: Which port the server will run on. *Defaults to 3030*
 - **-m --map-key &lt;string>** Add Mapbox API key for the interface. *Defaults to nothing*
 
 Example: 
-`mirageo-server -c 400 -b 40,0,30,20 -p 8080`
+`mirageo-server -c 400 -b 0,30,20,40 -p 8080`
 
 This will serve data on `http://localhost:8080/data`. 
 ```js

@@ -10,7 +10,7 @@ db.defaults({ mapkey: '' })
 
 const defaults = {
 	count: 100,
-	bound: [90, -180, -90, 180], // equivalent to "the whole earth!"
+	bound: [-180, -90, 180, 90], // equivalent to "the whole earth!"
 	geojson: false,
 }
 
@@ -29,7 +29,7 @@ const addMapKey = (key) => {
 program
 	.version('0.0.1')
 	.option('-c, --count <c>', 'The amount of points to create <int>', i => parseInt(i), defaults.count)
-	.option('-b, --bound <b>', 'The bounding box, NW to SE <lat1,lng1,lat2,lng2>', parseBBox, defaults.bound)
+	.option('-b, --bound <b>', 'The bounding box, <W,S,E,N>', parseBBox, defaults.bound)
 	.option('-g, --geojson', 'Send data as geoJSON objects', defaults.geojson)
 	.option('-p, --port <p>', 'Which port the server will run on, defaults to 3030')
 	.option('-m, --map-key [m]', 'Add Mapbox API key for the interface', addMapKey)
