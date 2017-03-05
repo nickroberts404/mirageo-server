@@ -1,6 +1,6 @@
 {
   "name": "mirageo-server",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "A server/interface for location data created by mirageo",
   "scripts": {
     "start": "nodemon index --ignore db.json client",
