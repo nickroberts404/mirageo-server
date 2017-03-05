@@ -1747,28 +1747,24 @@ function extend() {
 
 /***/ }),
 /* 21 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mapbox_gl_dist_mapbox_gl_js__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_mapbox_gl_dist_mapbox_gl_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_mapbox_gl_dist_mapbox_gl_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mapbox_mapbox_gl_draw__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mapbox_mapbox_gl_draw___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__mapbox_mapbox_gl_draw__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_whatwg_fetch__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_whatwg_fetch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_whatwg_fetch__);
 
 
-var _mapboxGl = __webpack_require__(65);
-
-var _mapboxGl2 = _interopRequireDefault(_mapboxGl);
-
-var _mapboxGlDraw = __webpack_require__(27);
-
-var _mapboxGlDraw2 = _interopRequireDefault(_mapboxGlDraw);
-
-__webpack_require__(13);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var map = void 0;
 var mapLoaded = false;
 var hasKey = false;
 var modal = document.getElementById('no-key-modal-container');
-var Draw = new _mapboxGlDraw2.default({
+var Draw = new __WEBPACK_IMPORTED_MODULE_1__mapbox_mapbox_gl_draw___default.a({
 	displayControlsDefault: false,
 	controls: {
 		polygon: true,
@@ -1801,8 +1797,8 @@ function createMap(key) {
 		modal.style.display = 'block';
 		return false;
 	}
-	_mapboxGl2.default.accessToken = key;
-	map = new _mapboxGl2.default.Map({
+	__WEBPACK_IMPORTED_MODULE_0_mapbox_gl_dist_mapbox_gl_js___default.a.accessToken = key;
+	map = new __WEBPACK_IMPORTED_MODULE_0_mapbox_gl_dist_mapbox_gl_js___default.a.Map({
 		container: 'map',
 		style: 'mapbox://styles/mapbox/light-v9',
 		zoom: 3,
