@@ -5,7 +5,9 @@
   "scripts": {
     "start": "nodemon index --ignore db.json client",
     "build": "webpack --watch",
-    "open": "live-server public"
+    "prod": "webpack -p",
+    "open": "live-server public",
+    "prepublish": "npm run prod",
   },
   "main": "index.js",
   "repository": "https://github.com/nickroberts404/mirageo-server.git",
@@ -22,7 +24,7 @@
     "express": "^4.15.0",
     "lowdb": "^0.15.5",
     "mapbox-gl": "^0.32.1",
-    "mirageo": "^1.0.4",
+    "mirageo": "^1.1.1",
     "morgan": "^1.8.1",
     "whatwg-fetch": "^2.0.3"
   },

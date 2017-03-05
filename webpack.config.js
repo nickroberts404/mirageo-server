@@ -1,15 +1,19 @@
 const path = require('path');
 const webpack = require('webpack')
+var fs = require('fs');
 
 module.exports = {
 	entry: [
-		'whatwg-fetch', 
+		'whatwg-fetch',
 		path.resolve(__dirname, 'client', 'index.js')
 	],
 	output: {
 		filename: 'bundle.js',
 		path: path.resolve(__dirname, 'public'),
         sourceMapFilename: 'bundle.map'
+	},
+	node: {
+		fs: "empty"
 	},
 	module: {
 		rules: [
