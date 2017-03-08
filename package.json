@@ -5,7 +5,6 @@
   "scripts": {
     "start": "nodemon index --ignore db.json client",
     "build": "webpack --watch",
-    "prod": "webpack -p",
     "open": "live-server public"
   },
   "main": "index.js",

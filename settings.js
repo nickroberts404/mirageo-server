@@ -3,7 +3,7 @@
 
 var program = require('commander');
 const low = require('lowdb');
-const db = low('db.json');
+const db = low(__dirname + '/db.json');
 
 db.defaults({ mapkey: '' })
 	.write()

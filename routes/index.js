@@ -3,7 +3,7 @@
 const mirageo = require('mirageo');
 const router = require('express').Router();
 const low = require('lowdb');
-const db = low('db.json');
+const db = low(__dirname + '/../db.json');
 
 //Data initialization
 let settings = require('../settings');
